@@ -10,26 +10,22 @@ def train_logistic_regression(X, y, lr=0.1, steps=1000):
     Return (w, b).
     """
     # Write code here
-    X = np.asarray(X, dtype=float)
-    y = np.asarray(y, dtype=float)
+    X = np.asarray(X)
+    n, m = X.shape
 
-    m, n = X.shape
-
-    w = np.zeros(n)
+    w = np.zeros(m)
     b = 0.0
-
     for _ in range(steps):
-        # Forward:
-        z = X@w + b
-        y_hat = _sigmoid(z)
+        z = X @ w + b
+        y_pred = _sigmoid(z)
+        loss = y_pred - y
 
-        # Compute the gradient
-        error = y_hat - y
-        dw = (X.T @ error) / m
-        db = np.sum(error) / m
+        dw = (X.T @ loss) / n
+        db = np.sum(loss) / n
 
-        # Update:
-        w -= lr * dw
-        b -= lr * db
+        w -= dw * lr
+        b -= db * lr
 
-    return w, b
+    return (w,b)
+        
+    
